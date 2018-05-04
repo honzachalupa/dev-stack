@@ -14,7 +14,7 @@ export default class Page_NotFound extends Component {
 
     render() {
         return (
-            <section data-component={this.constructor.name}>
+            <section>
                 <Layout_Main page={this.state.page}>
                     <h1>{this.state.page.label}</h1>
                 </Layout_Main>
