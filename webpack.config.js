@@ -1,9 +1,9 @@
 const path = require('path');
-const config = require('./src/config');
+const config = require('./src/app-config');
 const HtmlPlugin = require('html-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CleanPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -11,7 +11,7 @@ module.exports = {
     entry: './src/app/App.jsx',
     devtool: 'source-map',
     devServer: {
-        contentBase: './dist',
+        contentBase: path.resolve(__dirname, 'dist'),
         historyApiFallback: true
     },
     output: {
@@ -23,8 +23,10 @@ module.exports = {
         new HtmlPlugin({
             template: path.resolve(__dirname, 'src/index.html'),
             filename: 'index.html',
-            title: config.appName,
-            inject: 'body'
+            inject: 'body',
+            properties: {
+                title: config.name
+            }
         }),
         new StyleLintPlugin(),
         new CopyWebpackPlugin([
@@ -40,7 +42,14 @@ module.exports = {
             clientsClaim: true,
             skipWaiting: true
         }),
-        new ManifestPlugin()
+        new WebpackPwaManifest({
+            name: config.name,
+            short_name: config.nameShort,
+            description: config.description,
+            background_color: config.accentColor,
+            inject: true,
+            ios: true
+        })
     ],
     module: {
         rules: [
@@ -77,7 +86,8 @@ module.exports = {
                     }, {
                         loader: 'sass-loader',
                         options: {
-                            sourceMap: true
+                            sourceMap: true,
+                            data: `$accent-color: ${config.accentColor};`
                         }
                     },
                     'postcss-loader'

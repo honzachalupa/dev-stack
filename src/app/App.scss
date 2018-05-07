@@ -1,10 +1,9 @@
 @import 'css-reset-and-normalize-sass/scss/flavored-reset-and-normalize';
 
 $background-color: #fff;
-$accent-color: #fff;
 
-#app {
+body {
     width: 100vw;
     height: 100vh;
-    background-color: $background-color;
+    background-color: $accent-color !important;
 }

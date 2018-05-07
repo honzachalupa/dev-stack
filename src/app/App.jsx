@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, browserHistory } from 'react-router-dom';
-import config from './../config';
+import config from './../app-config';
 import { _isValid } from './helpers';
-import './../styles/main';
+import './App.scss';
 import Page_Home from './pages/Home';
 import Page_NotFound from './pages/NotFound';
 
@@ -48,4 +48,4 @@ class App extends Component {
     }
 }
 
-render(<App />, document.querySelector('#app'));
+render(<App />, document.querySelector('body'));
