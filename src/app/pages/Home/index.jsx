@@ -8,7 +8,7 @@ export default class Page_Home extends Component {
 
         this.state = {
             page: {
-                label: 'Homepage'
+                label: 'Welcome'
             }
         };
     }

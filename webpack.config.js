@@ -93,13 +93,22 @@ module.exports = {
                     'postcss-loader'
                 ]
             }, {
-                test: /\.(png|jp(e*)g|svg)$/,
+                test: /\.svg$/,
                 use: [
                     {
                         loader: 'url-loader',
                         options: {
-                            limit: 16000,
-                            name: 'images/[name].[ext]?[hash]'
+                            name: 'images/[name].[ext]'
+                        }
+                    }
+                ]
+            }, {
+                test: /\.(png|jp(e?)g)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'images/[name].[ext]'
                         }
                     }
                 ]
@@ -107,6 +116,6 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.css', '.scss']
+        extensions: ['.js', '.jsx', '.css', '.scss', '.svg', '.jpg', '.jpeg', '.png']
     },
 };
