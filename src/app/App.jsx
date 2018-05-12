@@ -29,6 +29,11 @@ class App extends Component {
         }
     }
 
+    /**
+     * Initialization of SW used for caching (PWA requirement).
+     *
+     * @memberof App
+     */
     initServiceWorker() {
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -39,10 +44,23 @@ class App extends Component {
         }
     }
 
-    updateContext(newContext) {
-        this.setState(newContext);
+    /**
+     * Performs an update of the global (App-level) context. Old state will be replaced with the new one.
+     *
+     * @param {any} context
+     * @memberof App
+     */
+    updateContext(context) {
+        this.setState(context);
     }
 
+    /**
+     * Performs an update of the global (App-level) context. Updates only selected item.
+     *
+     * @param {any} key
+     * @param {any} value
+     * @memberof App
+     */
     updateContextProperty(key, value) {
         this.setState({
             [key]: value
