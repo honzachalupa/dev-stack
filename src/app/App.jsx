@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unused-state */
 
+import 'babel-polyfill';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, browserHistory } from 'react-router-dom';
