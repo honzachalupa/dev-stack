@@ -73,4 +73,4 @@ class App extends Component {
     }
 }
 
-render(<App />, document.querySelector('body'));
+render(<App />, document.querySelector('#app'));
