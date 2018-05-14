@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { AppContext } from './../../App';
 import './style';
-import SampleIcon from './../../../images/icons/sample';
-import SampleImage from './../../../images/sample';
+import SampleIcon from 'Icons/sample';
+import SampleImage from 'Images/sample';
 
 export default class SampleComponent extends Component {
     render() {

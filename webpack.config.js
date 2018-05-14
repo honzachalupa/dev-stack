@@ -116,6 +116,15 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.css', '.scss', '.svg', '.jpg', '.jpeg', '.png']
-    },
+        extensions: ['.js', '.jsx', '.css', '.scss', '.svg', '.jpg', '.jpeg', '.png'],
+        alias: {
+            Components: path.resolve(__dirname, 'src/app/components/'),
+            Layouts: path.resolve(__dirname, 'src/app/layouts/'),
+            Pages: path.resolve(__dirname, 'src/app/pages/'),
+            Images: path.resolve(__dirname, 'src/images/'),
+            Icons: path.resolve(__dirname, 'src/images/icons/'),
+            helpers: path.resolve(__dirname, 'src/app/helpers.js'),
+            'app-config': path.resolve(__dirname, 'src/app-config.js')
+        }
+    }
 };

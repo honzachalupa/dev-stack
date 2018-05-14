@@ -4,11 +4,11 @@ import 'babel-polyfill';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, browserHistory } from 'react-router-dom';
-import config from './../app-config';
-import { _isValid } from './helpers';
+import config from 'app-config';
+import { _isValid } from 'helpers';
 import './App.scss';
-import Page_Home from './pages/Home';
-import Page_NotFound from './pages/NotFound';
+import Page_Home from 'Pages/Home';
+import Page_NotFound from 'Pages/NotFound';
 
 export const AppContext = React.createContext();
 

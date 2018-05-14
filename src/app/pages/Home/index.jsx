@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Layout_Main from './../../layouts/Main';
-import SampleComponent from './../../components/SampleComponent';
+import Layout_Main from 'Layouts/Main';
+import SampleComponent from 'Components/SampleComponent';
 
 export default class Page_Home extends Component {
     constructor() {
