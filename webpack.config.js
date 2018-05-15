@@ -7,6 +7,18 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CleanPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const workbox = (config.caching && config.caching.strategy) ? (
+    new WorkboxPlugin.GenerateSW({
+        swDest: 'sw.js',
+        runtimeCaching: [{
+            urlPattern: /\.(js|css|html|svg|jpg|png|ico|json|xml|csv|webmanifest)$/,
+            handler: config.caching.strategy
+        }],
+        clientsClaim: true,
+        skipWaiting: true
+    })
+) : null;
+
 module.exports = {
     entry: './src/app/App.jsx',
     devtool: 'source-map',
@@ -33,15 +45,7 @@ module.exports = {
             { from: 'src/static' },
             { from: 'src/images', to: 'images' }
         ]),
-        new WorkboxPlugin.GenerateSW({
-            swDest: 'sw.js',
-            runtimeCaching: [{
-                urlPattern: /\.(js|css|html|svg|jpg|png|ico|json|xml|csv|webmanifest)$/,
-                handler: config.caching.strategy
-            }],
-            clientsClaim: true,
-            skipWaiting: true
-        }),
+        workbox,
         new WebpackPwaManifest({
             name: config.name,
             short_name: config.nameShort,
@@ -50,7 +54,7 @@ module.exports = {
             inject: true,
             ios: true
         })
-    ],
+    ].filter(Boolean),
     module: {
         rules: [
             {
