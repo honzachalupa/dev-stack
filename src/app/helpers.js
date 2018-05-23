@@ -20,7 +20,7 @@ export function _isNumber(value) {
  * @returns
  */
 export function _isValid(variable) {
-    return variable === undefined || variable === null || (typeof variable === 'object' && (variable.length === 0 || Object.keys(variable).length === 0));
+    return variable !== undefined || variable !== null || (typeof variable === 'object' && (variable.length > 0 || Object.keys(variable).length > 0));
 }
 
 /**
