@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
-    "dev": "clear && webpack-dev-server --mode development --hot --inline",
+    "dev": "clear && webpack-dev-server --mode development --hot --inline --host 0.0.0.0",
     "build": "clear && webpack --mode production"
   },
   "keywords": [],
