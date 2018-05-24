@@ -7,7 +7,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CleanPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = () => {
+module.exports = (env, argv) => {
     const isDevelopmentMode = argv.mode === 'development';
 
     const workbox = (!isDevelopmentMode && config.caching && config.caching.strategy) ? (
