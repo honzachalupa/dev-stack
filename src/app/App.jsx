@@ -36,10 +36,10 @@ class App extends Component {
      */
     initServiceWorker() {
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch((error) => {
-                    console.log('SW registration failed: ', error);
-                });
+            navigator.serviceWorker.register('service-worker.js').then(registration => {
+                console.log('Service worker successfully registered on scope:', registration.scope);
+            }).catch(error => {
+                console.log('Service worker failed to register: ', error);
             });
         }
     }
@@ -72,18 +72,8 @@ class App extends Component {
             <AppContext.Provider value={this.state}>
                 <Router history={browserHistory}>
                     <Switch>
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <Page_Home />
-                            )}
-                        />
-                        <Route
-                            render={() => (
-                                <Page_NotFound />
-                            )}
-                        />
+                        <Route component={Page_Home} path="/" exact />
+                        <Route component={Page_NotFound} exact />
                     </Switch>
                 </Router>
             </AppContext.Provider>

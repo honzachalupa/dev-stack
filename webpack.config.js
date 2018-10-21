@@ -1,27 +1,13 @@
 const path = require('path');
 const config = require('./src/app-config');
-const HtmlPlugin = require('html-webpack-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+
 const CleanPlugin = require('clean-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
-module.exports = (env, argv) => {
-    const isDevelopmentMode = argv.mode === 'development';
-
-    const workbox = (!isDevelopmentMode && config.caching && config.caching.strategy) ? (
-        new WorkboxPlugin.GenerateSW({
-            swDest: 'sw.js',
-            runtimeCaching: [{
-                urlPattern: /\.(js|css|html|svg|jpg|jpeg|png|ico|json|xml|webmanifest)$/,
-                handler: config.caching.strategy
-            }],
-            clientsClaim: true,
-            skipWaiting: true
-        })
-    ) : null;
-
+module.exports = () => {
     return {
         entry: './src/app/App.jsx',
         devtool: 'source-map',
@@ -30,61 +16,82 @@ module.exports = (env, argv) => {
             historyApiFallback: true
         },
         output: {
-            filename: 'js/bundle.js',
+            filename: 'bundle.js',
             path: path.resolve(__dirname, 'dist')
         },
         plugins: [
-            new CleanPlugin(['dist']),
+            new CleanPlugin(['./dist']),
             new HtmlPlugin({
-                template: path.resolve(__dirname, 'src/index.html'),
+                template: path.resolve(__dirname, 'src/index.html_template'),
                 filename: 'index.html',
-                inject: 'body',
-                properties: {
-                    title: config.name
+                inject: true,
+                properties: config
+            }),
+            new WebappWebpackPlugin({
+                logo: './src/images/icon.png',
+                inject: true,
+                prefix: 'images/favicons',
+                ios: {
+                    'apple-mobile-web-app-status-bar-style': 'black-translucent'
+                },
+                favicons: {
+                    appName: config.nameShort,
+                    appDescription: config.description,
+                    developerName: config.developerName,
+                    developerURL: config.developerUrl,
+                    lang: 'cs-CZ',
+                    background: '#FFF',
+                    theme_color: config.accentColor,
+                    orientation: 'portrait',
+                    start_url: '/index.html?pwa=true',
+                    icons: {
+                        coast: false,
+                        yandex: false
+                    }
                 }
             }),
             new StyleLintPlugin(),
             new CopyWebpackPlugin([
                 { from: 'src/static' },
                 { from: 'src/images', to: 'images' }
-            ]),
-            workbox,
-            new WebpackPwaManifest({
-                name: config.name,
-                short_name: config.nameShort,
-                description: config.description,
-                background_color: config.accentColor,
-                fingerprints: false,
-                ios: {
-                    'apple-mobile-web-app-status-bar-style': 'black-translucent'
-                }
-            })
+            ])
         ].filter(Boolean),
         module: {
             rules: [
                 {
-                    test: /\.jsx$/,
-                    exclude: /node_modules/,
+                    test: /\.jsx?$/,
+                    include: path.resolve(__dirname, 'src'),
                     use: [
                         {
                             loader: 'babel-loader',
                             options: {
+                                plugins: [
+                                    'transform-object-rest-spread',
+                                    'react-component-data-attribute'
+                                ],
                                 presets: [
                                     'react',
                                     ['env', {
                                         targets: {
-                                            browsers: ['last 2 versions']
+                                            browsers: [
+                                                'last 2 Chrome versions',
+                                                'last 2 Firefox versions',
+                                                'last 2 Safari versions',
+                                                'last 2 iOS versions',
+                                                'Android >= 4.4',
+                                                'Edge >= 12',
+                                                'Explorer >= 11'
+                                            ]
                                         }
                                     }]
-                                ],
-                                plugins: ['react-component-data-attribute']
+                                ]
                             }
                         },
                         'eslint-loader'
                     ]
                 }, {
-                    test: /\.scss$/,
-                    exclude: /node_modules/,
+                    test: /\.s?css$/,
+                    include: path.resolve(__dirname, 'src'),
                     use: [
                         'style-loader',
                         {
@@ -103,6 +110,7 @@ module.exports = (env, argv) => {
                     ]
                 }, {
                     test: /\.svg$/,
+                    include: path.resolve(__dirname, 'src'),
                     use: [
                         {
                             loader: 'url-loader',
@@ -113,6 +121,7 @@ module.exports = (env, argv) => {
                     ]
                 }, {
                     test: /\.(png|jp(e?)g)$/,
+                    include: path.resolve(__dirname, 'src'),
                     use: [
                         {
                             loader: 'file-loader',
@@ -127,14 +136,19 @@ module.exports = (env, argv) => {
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.scss', '.svg', '.jpg', '.jpeg', '.png'],
             alias: {
+                App: path.resolve(__dirname, 'src/app/App.jsx'),
                 Components: path.resolve(__dirname, 'src/app/components/'),
                 Layouts: path.resolve(__dirname, 'src/app/layouts/'),
                 Pages: path.resolve(__dirname, 'src/app/pages/'),
                 Images: path.resolve(__dirname, 'src/images/'),
                 Icons: path.resolve(__dirname, 'src/images/icons/'),
                 helpers: path.resolve(__dirname, 'src/app/helpers.js'),
+                constants: path.resolve(__dirname, 'src/app/constants.js'),
                 'app-config': path.resolve(__dirname, 'src/app-config.js')
             }
+        },
+        node: {
+            fs: 'empty'
         }
     };
 };
