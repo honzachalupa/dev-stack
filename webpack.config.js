@@ -1,5 +1,7 @@
+const webpack = require('webpack');
 const path = require('path');
 const config = require('./src/app-config');
+const moment = require('moment');
 
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
@@ -7,22 +9,32 @@ const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 
-module.exports = () => {
+module.exports = env => {
+    console.log('Build started with following arguments:', env || 'NONE');
+
+    const buildDate = moment().format('D.M.YYYY');
+    const buildTarget = (env) ? env.buildTarget : '';
+
+
     return {
-        entry: './src/app/App.jsx',
+        entry: {
+            bundle: './src/app/App.jsx',
+            sw: './src/app/sw.js'
+        },
+        output: {
+            filename: '[name].js',
+            path: path.resolve(__dirname, 'dist'),
+            globalObject: 'this'
+        },
         devtool: 'source-map',
         devServer: {
             contentBase: path.resolve(__dirname, 'dist'),
             historyApiFallback: true
         },
-        output: {
-            filename: 'bundle.js',
-            path: path.resolve(__dirname, 'dist')
-        },
         plugins: [
             new CleanPlugin(['./dist']),
             new HtmlPlugin({
-                template: path.resolve(__dirname, 'src/index.html_template'),
+                template: path.resolve(__dirname, 'src/index.html'),
                 filename: 'index.html',
                 inject: true,
                 properties: config
@@ -31,31 +43,29 @@ module.exports = () => {
                 logo: './src/images/icon.png',
                 inject: true,
                 prefix: 'images/favicons',
-                ios: {
-                    'apple-mobile-web-app-status-bar-style': 'black-translucent'
-                },
+                ios: { 'apple-mobile-web-app-status-bar-style': 'black-translucent' },
                 favicons: {
                     appName: config.nameShort,
                     appDescription: config.description,
-                    developerName: config.developerName,
-                    developerURL: config.developerUrl,
+                    developerName: 'Jan Chalupa',
+                    developerURL: 'http://www.honzachalupa.cz/',
                     lang: 'cs-CZ',
-                    background: '#FFF',
+                    background: config.accentColor,
                     theme_color: config.accentColor,
                     orientation: 'portrait',
-                    start_url: '/index.html?pwa=true',
-                    icons: {
-                        coast: false,
-                        yandex: false
-                    }
+                    start_url: 'index.html?pwa=true'
                 }
             }),
             new StyleLintPlugin(),
             new CopyWebpackPlugin([
                 { from: 'src/static' },
                 { from: 'src/images', to: 'images' }
-            ])
-        ].filter(Boolean),
+            ]),
+            new webpack.DefinePlugin({
+                __BUILDDATE__: `'${buildDate}'`,
+                __BUILDTARGET__: `'${buildTarget}'`
+            })
+        ],
         module: {
             rules: [
                 {
@@ -66,12 +76,15 @@ module.exports = () => {
                             loader: 'babel-loader',
                             options: {
                                 plugins: [
-                                    'transform-object-rest-spread',
-                                    'react-component-data-attribute'
+                                    ['@babel/plugin-proposal-decorators', { legacy: true }],
+                                    ['@babel/plugin-proposal-class-properties', { loose: true }],
+                                    '@babel/plugin-proposal-object-rest-spread',
+                                    '@babel/plugin-syntax-dynamic-import',
+                                    '@starmandeluxe/babel-plugin-react-component-data-attribute'
                                 ],
                                 presets: [
-                                    'react',
-                                    ['env', {
+                                    '@babel/preset-react',
+                                    ['@babel/preset-env', {
                                         targets: {
                                             browsers: [
                                                 'last 2 Chrome versions',

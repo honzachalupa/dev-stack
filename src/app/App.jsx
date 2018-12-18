@@ -1,9 +1,9 @@
-/* eslint-disable react/no-unused-state */
+/* globals __BASENAME__ */
 
-import 'babel-polyfill';
+import '@babel/polyfill';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router, Route, Switch, browserHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import config from 'app-config';
 import './App.scss';
 import Page_Home from 'Pages/Home';
@@ -35,11 +35,37 @@ class App extends Component {
      * @memberof App
      */
     initServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js').then(registration => {
-                console.log('Service worker successfully registered on scope:', registration.scope);
-            }).catch(error => {
-                console.log('Service worker failed to register: ', error);
+        if ('serviceWorker' in navigator || 'caches' in window) {
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                const isServiceWorkerNotRegistered = regs.length === 0;
+
+                if (isServiceWorkerNotRegistered) {
+                    navigator.serviceWorker.register('sw.js', { scope: __BASENAME__ }).then(reg => {
+                        console.log('Service worker successfully registered on scope:', reg.scope);
+
+                        reg.onupdatefound = () => {
+                            const installingWorker = reg.installing;
+
+                            installingWorker.onstatechange = () => {
+                                if (installingWorker.state === 'installed') {
+                                    if (navigator.serviceWorker.controller) {
+                                        this.setState({
+                                            updateAvailable: true
+                                        });
+                                    } else {
+                                        this.setState({
+                                            updateAvailable: false
+                                        });
+                                    }
+                                }
+                            };
+                        };
+                    }).catch(error => {
+                        console.log('Service worker failed to register: ', error);
+                    });
+                } else {
+                    console.log('Service worker already registered.');
+                }
             });
         }
     }
@@ -70,7 +96,7 @@ class App extends Component {
     render() {
         return (
             <AppContext.Provider value={this.state}>
-                <Router history={browserHistory}>
+                <Router>
                     <Switch>
                         <Route component={Page_Home} path="/" exact />
                         <Route component={Page_NotFound} exact />

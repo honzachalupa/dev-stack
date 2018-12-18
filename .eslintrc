@@ -8,9 +8,9 @@
     "rules": {
         "jsx-a11y/click-events-have-key-events": 0,
         "jsx-a11y/label-has-for": [ 2, {
-            "components": [ "Label" ],
+            "components": ["Label"],
             "required": {
-                "some": [ "nesting", "id" ]
+                "some": ["nesting", "id"]
             },
             "allowChildren": false
         }],
