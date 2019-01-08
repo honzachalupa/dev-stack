@@ -14,10 +14,12 @@ export default class Page_Home extends Component {
     }
 
     render() {
+        const { page } = this.state;
+
         return (
             <section>
-                <Layout_Main page={this.state.page}>
-                    <h1>{this.state.page.label}</h1>
+                <Layout_Main page={page}>
+                    <h1>{page.label}</h1>
 
                     <SampleComponent />
                 </Layout_Main>
