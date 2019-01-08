@@ -65,7 +65,7 @@ const cacheFilesObject = {
     }
 };
 
-const cacheName = 'kalkulacka-cache';
+const cacheName = 'cache';
 const path = '/';
 const cacheFiles = objectToArray(cacheFilesObject).map(url => { return path + url; });
 
