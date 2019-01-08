@@ -20,7 +20,7 @@ export default class SampleComponent extends Component {
 
                                 <p>{test}</p>
 
-                                <button onClick={() => _updateContextProperty('test', Math.random())}>Update app's context...</button>
+                                <button type="button" onClick={() => _updateContextProperty('test', Math.random())}>Update app's context...</button>
                             </Fragment>
                         );
                     }}
