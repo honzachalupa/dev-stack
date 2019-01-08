@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-globals, consistent-return, array-callback-return, prefer-arrow-callback, func-names, prefer-template */
+/* eslint-disable no-restricted-globals */
 
 const cacheFilesObject = {
     _root: [
@@ -76,7 +76,7 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(cacheName).then(cache => {
             // Add all the default files to the cache
-            console.log('[ServiceWorker] Caching files');
+            console.log('[ServiceWorker] Caching files:', ...cacheFiles);
 
             return cache.addAll(cacheFiles);
         })
@@ -121,9 +121,9 @@ function objectToArray(inputObject, groupName = '') {
         const node = inputObject[subGroupName];
 
         if (typeof node === 'object') {
-            outputArray = outputArray.concat(objectToArray(node, groupName + '/' + subGroupName));
+            outputArray = outputArray.concat(objectToArray(node, `${groupName}/${subGroupName}`));
         } else {
-            const path = groupName.replace('/_root', '') + '/';
+            const path = `${groupName.replace('/_root', '')}/`;
 
             outputArray.push(path + node);
         }
