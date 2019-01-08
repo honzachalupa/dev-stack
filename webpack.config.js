@@ -29,6 +29,7 @@ module.exports = env => {
         devtool: 'source-map',
         devServer: {
             contentBase: path.resolve(__dirname, 'dist'),
+            host: '0.0.0.0',
             historyApiFallback: true
         },
         plugins: [
@@ -155,7 +156,7 @@ module.exports = env => {
                 Pages: path.resolve(__dirname, 'src/app/pages/'),
                 Images: path.resolve(__dirname, 'src/images/'),
                 Icons: path.resolve(__dirname, 'src/images/icons/'),
-                helpers: path.resolve(__dirname, 'src/app/helpers.js'),
+                Helpers: path.resolve(__dirname, 'src/app/helpers/'),
                 constants: path.resolve(__dirname, 'src/app/constants.js'),
                 'app-config': path.resolve(__dirname, 'src/app-config.js')
             }

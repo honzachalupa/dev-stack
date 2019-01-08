@@ -1,21 +1,18 @@
-/* globals __BASENAME__ */
-
 import '@babel/polyfill';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import config from 'app-config';
+import AppContext from 'Helpers/context';
+import { _initServiceWorker } from 'Helpers/app';
 import './App.scss';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
-
-export const AppContext = React.createContext();
 
 class App extends Component {
     constructor() {
         super();
 
-        this.updateContext = this.updateContext.bind(this);
         this.updateContextProperty = this.updateContextProperty.bind(this);
 
         this.state = {
@@ -25,59 +22,8 @@ class App extends Component {
         };
 
         if (config.caching && config.caching.strategy) {
-            this.initServiceWorker();
+            _initServiceWorker();
         }
-    }
-
-    /**
-     * Initialization of SW used for caching (PWA requirement).
-     *
-     * @memberof App
-     */
-    initServiceWorker() {
-        if ('serviceWorker' in navigator || 'caches' in window) {
-            navigator.serviceWorker.getRegistrations().then(regs => {
-                const isServiceWorkerNotRegistered = regs.length === 0;
-
-                if (isServiceWorkerNotRegistered) {
-                    navigator.serviceWorker.register('sw.js', { scope: __BASENAME__ }).then(reg => {
-                        console.log('Service worker successfully registered on scope:', reg.scope);
-
-                        reg.onupdatefound = () => {
-                            const installingWorker = reg.installing;
-
-                            installingWorker.onstatechange = () => {
-                                if (installingWorker.state === 'installed') {
-                                    if (navigator.serviceWorker.controller) {
-                                        this.setState({
-                                            updateAvailable: true
-                                        });
-                                    } else {
-                                        this.setState({
-                                            updateAvailable: false
-                                        });
-                                    }
-                                }
-                            };
-                        };
-                    }).catch(error => {
-                        console.log('Service worker failed to register: ', error);
-                    });
-                } else {
-                    console.log('Service worker already registered.');
-                }
-            });
-        }
-    }
-
-    /**
-     * Performs an update of the global (App-level) context. Old state will be replaced with the new one.
-     *
-     * @param {any} context
-     * @memberof App
-     */
-    updateContext(context) {
-        this.setState(context);
     }
 
     /**

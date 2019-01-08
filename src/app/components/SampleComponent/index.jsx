@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { AppContext } from './../../App';
+import AppContext from 'Helpers/context';
 import './style';
 import SampleIcon from 'Icons/sample';
 import SampleImage from 'Images/sample';
