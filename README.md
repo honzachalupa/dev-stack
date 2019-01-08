@@ -1,23 +1,29 @@
-## Summary
-To-do
+## Overview
+Webpack-powered dev-stack using newest technologies. Great for both web and PWA apps.
 
 ## Features
-|Technology|Preprocessing|Linting|
-|--|--|--|--|
-|React + JSX|Babel|ESlint|
-|CSS|SASS|Stylelint|
+- Babel
+- webpack-dev-server
+- React
+- React Router
+- Service Worker with caching prepared
+- SCSS (with autoprefixer)
+- ESlint (Airbnb + Flowtype)
+- Stylelint
+- config file for IIS servers (redirect rule)
+- common helper functions
 
 ## Used plugins
-
- - [HtmlPlugin](http://www.url.com)
- - [StyleLintPlugin](http://www.url.com)
- - [WorkboxPlugin](http://www.url.com)
- - [WebpackPwaManifest](http://www.url.com)
- - [CleanPlugin](http://www.url.com)
- - [CopyWebpackPlugin](http://www.url.com)
+ - [html-webpack-plugin](https://www.npmjs.com/package/html-webpack-plugin)
+ - [webapp-webpack-plugin](https://www.npmjs.com/package/webapp-webpack-plugin)
+ - [stylelint-webpack-plugin](https://www.npmjs.com/package/stylelint-webpack-plugin)
+ - [copy-webpack-plugin](https://www.npmjs.com/package/copy-webpack-plugin)
+ - [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin)
 
 ## Getting started
-To-do
+Step 1: Install dependencies using `npm install`.
+Step 2: Run webpack-dev-server using `npm run dev` (running app should be accessible on `localhost:8080` by default).
+Step 3 (optional): Run build script using `npm run build`. Builded files will be in `/dist` folder.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
