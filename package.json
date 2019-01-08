@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
-    "dev": "clear && webpack-dev-server --mode development --hot --inline --host 0.0.0.0 --env.buildTarget=dev --env.baseName=/",
-    "build": "clear && webpack --mode production --env.buildTarget=prod --env.baseName=/",
-    "build-nefa": "clear && webpack --mode production --env.buildTarget=prod --env.baseName=/nefa-dist/"
+    "dev": "clear && webpack-dev-server --mode development --hot --inline --env.buildTarget=dev --env.baseName=/",
+    "build": "clear && webpack --mode production --env.buildTarget=prod --env.baseName=/"
   },
   "keywords": [],
   "author": "Jan Chalupa",
