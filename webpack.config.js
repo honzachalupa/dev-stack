@@ -12,10 +12,6 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 module.exports = env => {
     console.log('Build started with following arguments:', env || 'NONE');
 
-    const buildDate = moment().format('D.M.YYYY');
-    const buildTarget = (env) ? env.buildTarget : '';
-
-
     return {
         entry: {
             bundle: './src/app/App.jsx',
@@ -63,8 +59,8 @@ module.exports = env => {
                 { from: 'src/images', to: 'images' }
             ]),
             new webpack.DefinePlugin({
-                __BUILDDATE__: `'${buildDate}'`,
-                __BUILDTARGET__: `'${buildTarget}'`
+                __BUILDDATE__: `'${moment().format('D.M.YYYY')}'`,
+                __BUILDTARGET__: `'${env ? env.buildTarget : ''}'`
             })
         ],
         module: {
