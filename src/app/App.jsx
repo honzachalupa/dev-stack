@@ -21,7 +21,7 @@ class App extends Component {
             _updateContextProperty: this.updateContextProperty
         };
 
-        if (config.caching && config.caching.strategy) {
+        if (config.caching) {
             _initServiceWorker();
         }
     }
