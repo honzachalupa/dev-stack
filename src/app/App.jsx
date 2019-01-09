@@ -16,7 +16,7 @@ class App extends Component {
         this.updateContextProperty = this.updateContextProperty.bind(this);
 
         this.state = {
-            test: Math.random(),
+            testValue: 'I\'m a testValue and I live in the AppContext - let\'s update me...',
             _updateContext: this.updateContext,
             _updateContextProperty: this.updateContextProperty
         };

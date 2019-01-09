@@ -7,8 +7,14 @@ import SampleImage from 'Images/sample';
 export default class SampleComponent extends Component {
     static contextType = AppContext;
 
+    handleValueUpdate(newValue) {
+        const { _updateContextProperty } = this.context;
+
+        _updateContextProperty('testValue', newValue);
+    }
+
     render() {
-        const { test, _updateContextProperty } = this.context;
+        const { testValue } = this.context;
 
         return (
             <div>
@@ -19,9 +25,9 @@ export default class SampleComponent extends Component {
                     <img className="sample-image" src={SampleIcon} alt="Sample SVG icon" />
                     <img className="sample-image" src={SampleImage} alt="Sample JPG image" />
 
-                    <p>{test}</p>
+                    <p>{testValue}</p>
 
-                    <button type="button" onClick={() => _updateContextProperty('test', Math.random())}>Update app's context...</button>
+                    <button type="button" onClick={() => this.handleValueUpdate(Math.random())}>Update AppContext</button>
                 </Fragment>
             </div>
         );
