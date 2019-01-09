@@ -60,7 +60,8 @@ module.exports = env => {
             ]),
             new webpack.DefinePlugin({
                 __BUILDDATE__: `'${moment().format('D.M.YYYY')}'`,
-                __BUILDTARGET__: `'${env ? env.buildTarget : ''}'`
+                __BUILDTARGET__: `'${env ? env.buildTarget : ''}'`,
+                __BASENAME__: `'${env ? env.baseName : '/'}'`
             })
         ],
         module: {

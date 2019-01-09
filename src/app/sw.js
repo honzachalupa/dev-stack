@@ -1,3 +1,4 @@
+/* globals __BASENAME__ */
 /* eslint-disable no-restricted-globals */
 
 const cacheFilesObject = {
@@ -65,8 +66,8 @@ const cacheFilesObject = {
     }
 };
 
-const cacheName = 'cache';
-const path = '/';
+const cacheName = 'dev-stack-cache';
+const path = __BASENAME__.substring(0, __BASENAME__.length - 1) || '';
 const cacheFiles = objectToArray(cacheFilesObject).map(url => { return path + url; });
 
 self.addEventListener('install', event => {
@@ -76,7 +77,7 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(cacheName).then(cache => {
             // Add all the default files to the cache
-            console.log('[ServiceWorker] Caching files:', ...cacheFiles);
+            console.log('[ServiceWorker] Caching files: ', ...cacheFiles);
 
             return cache.addAll(cacheFiles);
         })
