@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { autobind } from 'core-decorators';
 import config from 'app-config';
 import AppContext from 'Helpers/context';
 import { _initServiceWorker } from 'Helpers/app';
@@ -13,11 +14,8 @@ class App extends Component {
     constructor() {
         super();
 
-        this.updateContextProperty = this.updateContextProperty.bind(this);
-
         this.state = {
             testValue: 'I\'m a testValue and I live in the AppContext - let\'s update me...',
-            _updateContext: this.updateContext,
             _updateContextProperty: this.updateContextProperty
         };
 
@@ -33,6 +31,7 @@ class App extends Component {
      * @param {any} value
      * @memberof App
      */
+    @autobind
     updateContextProperty(key, value) {
         this.setState({
             [key]: value
