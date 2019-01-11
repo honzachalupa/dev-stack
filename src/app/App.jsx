@@ -11,14 +11,12 @@ import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
 
 class App extends Component {
-    constructor() {
-        super();
+    state = {
+        testValue: 'I\'m a testValue and I live in the AppContext - let\'s update me...',
+        _updateContextProperty: this.updateContextProperty
+    }
 
-        this.state = {
-            testValue: 'I\'m a testValue and I live in the AppContext - let\'s update me...',
-            _updateContextProperty: this.updateContextProperty
-        };
-
+    componentDidMount() {
         if (config.caching) {
             _initServiceWorker();
         }

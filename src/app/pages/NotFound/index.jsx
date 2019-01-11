@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout_Main from 'Layouts/Main';
+import Layout from 'Layouts/Main';
 
 export default class Page_NotFound extends Component {
     constructor() {
@@ -17,9 +17,9 @@ export default class Page_NotFound extends Component {
 
         return (
             <section>
-                <Layout_Main page={page}>
+                <Layout page={page}>
                     <h1>{page.label}</h1>
-                </Layout_Main>
+                </Layout>
             </section>
         );
     }
