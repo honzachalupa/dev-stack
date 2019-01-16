@@ -4,11 +4,10 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { autobind } from 'core-decorators';
 import config from 'app-config';
-import AppContext from 'Helpers/context';
-import { _initServiceWorker } from 'Helpers/app';
 import './App.scss';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
+import { Context, app } from '@honzachalupa/helpers';
 
 class App extends Component {
     state = {
@@ -18,7 +17,7 @@ class App extends Component {
 
     componentDidMount() {
         if (config.caching) {
-            _initServiceWorker();
+            app.initServiceWorker();
         }
     }
 
@@ -38,14 +37,14 @@ class App extends Component {
 
     render() {
         return (
-            <AppContext.Provider value={this.state}>
+            <Context.Provider value={this.state}>
                 <Router>
                     <Switch>
                         <Route component={Page_Home} path="/" exact />
                         <Route component={Page_NotFound} exact />
                     </Switch>
                 </Router>
-            </AppContext.Provider>
+            </Context.Provider>
         );
     }
 }

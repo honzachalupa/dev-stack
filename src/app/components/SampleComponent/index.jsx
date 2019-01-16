@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import AppContext from 'Helpers/context';
+import { Context } from '@honzachalupa/helpers';
 import './style';
 import SampleIcon from 'Icons/sample';
 import SampleImage from 'Images/sample';
 
 export default class SampleComponent extends Component {
-    static contextType = AppContext;
+    static contextType = Context;
 
     handleValueUpdate(newValue) {
         const { _updateContextProperty } = this.context;

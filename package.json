@@ -8,10 +8,11 @@
     "build": "clear && webpack --mode production --env.buildTarget=prod --env.baseName=/"
   },
   "keywords": [],
-  "author": "Jan Chalupa",
+  "author": "Jan Chalupa <janchalupa@outlook.cz> (https://www.honzachalupa.cz/)",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "@honzachalupa/helpers": "^0.1.15",
     "classnames": "^2.2.6",
     "moment": "^2.23.0",
     "promise-polyfill": "^8.1.0",
