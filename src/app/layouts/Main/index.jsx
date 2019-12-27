@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './style';
 
-export default class Layout_Main extends Component {
-    render() {
-        const { children: content } = this.props;
-
-        return (
-            <div>
-                {content}
-            </div>
-        );
-    }
-}
+export default ({ children }) => (
+    <div data-component="Layout_Main">
+        {children}
+    </div>
+);
