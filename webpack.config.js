@@ -12,6 +12,11 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 module.exports = env => {
     console.log('Build started with following arguments:', env || 'NONE');
 
+    const buildDate = moment().format('D.M.YYYY');
+    const buildTarget = env ? env.buildTarget : '';
+    const baseName = env ? env.baseName : '/';
+    const platform = env ? env.platform : '';
+
     return {
         entry: {
             bundle: './src/app/App.jsx',
@@ -60,9 +65,10 @@ module.exports = env => {
                 { from: 'src/images', to: 'images' }
             ]),
             new webpack.DefinePlugin({
-                __BUILDDATE__: `'${moment().format('D.M.YYYY')}'`,
-                __BUILDTARGET__: `'${env ? env.buildTarget : ''}'`,
-                __BASENAME__: `'${env ? env.baseName : '/'}'`
+                __BUILDDATE__: `'${buildDate}'`,
+                __BUILDTARGET__: `'${buildTarget}'`,
+                __BASENAME__: `'${baseName}'`,
+                __PLATFORM__: `'${platform}'`
             })
         ],
         module: {
@@ -74,13 +80,6 @@ module.exports = env => {
                         {
                             loader: 'babel-loader',
                             options: {
-                                plugins: [
-                                    ['@babel/plugin-proposal-decorators', { legacy: true }],
-                                    ['@babel/plugin-proposal-class-properties', { loose: true }],
-                                    '@babel/plugin-proposal-object-rest-spread',
-                                    '@babel/plugin-syntax-dynamic-import',
-                                    '@starmandeluxe/babel-plugin-react-component-data-attribute'
-                                ],
                                 presets: [
                                     '@babel/preset-react',
                                     ['@babel/preset-env', {

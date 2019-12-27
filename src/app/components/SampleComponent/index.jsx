@@ -8,7 +8,7 @@ export default () => {
     const { testValue, setTestValue } = useContext(Context);
 
     return (
-        <div>
+        <div data-component="SampleComponent">
             <p>SVG images are converted to Base64 and imported directly to JS bundle.</p>
             <p>Image on the left side is the SVG file (bundeled with JS); on the right side is the PNG file (loaded with another request).</p>
 
