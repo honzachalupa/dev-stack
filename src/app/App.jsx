@@ -1,3 +1,5 @@
+/* globals __BASENAME__ */
+
 import '@babel/polyfill';
 import React, { useState, useEffect } from 'react';
 import { render } from 'react-dom';
@@ -32,7 +34,7 @@ const App = () => {
 
     return (
         <Context.Provider value={{ ...state, ...globalFunctions }}>
-            <Router>
+            <Router basename={__BASENAME__}>
                 <Switch>
                     <Route component={Page_Home} path="/" exact />
                     <Route component={Page_NotFound} exact />

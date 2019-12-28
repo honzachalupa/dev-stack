@@ -12,6 +12,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 module.exports = env => {
     console.log('Build started with following arguments:', env || 'NONE');
 
+    const isProduction = env.buildTarget === 'prod';
     const buildDate = moment().format('D.M.YYYY');
     const buildTarget = env ? env.buildTarget : '';
     const baseName = env ? env.baseName : '/';
@@ -25,7 +26,7 @@ module.exports = env => {
         output: {
             filename: '[name].js',
             path: path.resolve(__dirname, 'dist'),
-            publicPath: '/',
+            publicPath: baseName,
             globalObject: 'this'
         },
         devtool: 'source-map',
@@ -113,8 +114,9 @@ module.exports = env => {
                         }, {
                             loader: 'sass-loader',
                             options: {
-                                sourceMap: true,
-                                data: `$accent-color: ${config.accentColor};`
+                                sourceMap: !isProduction,
+                                data: `$accent-color: ${config.accentColor};`,
+                                includePaths: [__dirname, path.resolve(__dirname, 'src')]
                             }
                         },
                         'postcss-loader'
