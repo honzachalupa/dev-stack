@@ -57,7 +57,7 @@ module.exports = env => {
                     background: config.accentColor,
                     theme_color: config.accentColor,
                     orientation: 'portrait',
-                    start_url: 'index.html?pwa=true'
+                    start_url: `${baseName}index.html?pwa=true`
                 }
             }),
             new StyleLintPlugin(),
