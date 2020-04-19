@@ -1,4 +1,5 @@
-export interface IContext {
-    testValue: string;
+import { IState } from "App/*";
+
+export interface IContext extends IState {
     setTestValue: (value: string) => void;
 }

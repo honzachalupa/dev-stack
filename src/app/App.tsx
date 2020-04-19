@@ -11,7 +11,7 @@ import './App.scss';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
 
-interface IState {
+export interface IState {
     testValue: string;
 }
 
