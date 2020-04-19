@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const config = require('./src/app-config');
+const config = require('./src/config');
 const moment = require('moment');
 
 const CleanPlugin = require('clean-webpack-plugin');
@@ -8,6 +8,7 @@ const HtmlPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = env => {
     console.log('Build started with following arguments:', env || 'NONE');
@@ -20,7 +21,7 @@ module.exports = env => {
 
     return {
         entry: {
-            bundle: './src/app/App.jsx',
+            bundle: './src/app/App.tsx',
             sw: './src/app/sw.js'
         },
         output: {
@@ -102,6 +103,34 @@ module.exports = env => {
                         'eslint-loader'
                     ]
                 }, {
+                    test: /\.tsx?$/,
+                    include: path.resolve(__dirname, 'src'),
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: [
+                                    '@babel/preset-typescript',
+                                    '@babel/preset-react',
+                                    ['@babel/preset-env', {
+                                        targets: {
+                                            browsers: [
+                                                'last 2 Chrome versions',
+                                                'last 2 Firefox versions',
+                                                'last 2 Safari versions',
+                                                'last 2 iOS versions',
+                                                'Android >= 4.4',
+                                                'Edge >= 12',
+                                                'Explorer >= 11'
+                                            ]
+                                        }
+                                    }]
+                                ]
+                            }
+                        },
+                        'awesome-typescript-loader'
+                    ]
+                }, {
                     test: /\.s?css$/,
                     include: path.resolve(__dirname, 'src'),
                     use: [
@@ -147,17 +176,12 @@ module.exports = env => {
             ]
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.css', '.scss', '.svg', '.jpg', '.jpeg', '.png'],
-            alias: {
-                App: path.resolve(__dirname, 'src/app/App.jsx'),
-                Components: path.resolve(__dirname, 'src/app/components/'),
-                Layouts: path.resolve(__dirname, 'src/app/layouts/'),
-                Pages: path.resolve(__dirname, 'src/app/pages/'),
-                Images: path.resolve(__dirname, 'src/images/'),
-                Icons: path.resolve(__dirname, 'src/images/icons/'),
-                Helpers: path.resolve(__dirname, 'src/app/helpers.js'),
-                'app-config': path.resolve(__dirname, 'src/app-config.js')
-            }
+            plugins: [
+                new TsConfigPathsPlugin({
+                    configFileName: './tsconfig.json'
+                })
+            ],
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.scss', '.svg', '.jpg', '.jpeg', '.png', '.ttf']
         },
         node: {
             fs: 'empty'

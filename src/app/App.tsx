@@ -4,19 +4,24 @@ import '@babel/polyfill';
 import React, { useState, useEffect } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import config from 'app-config';
+import { Context, app } from '@honzachalupa/helpers';
+import config from 'config';
+import { IContext } from 'Interfaces/Context';
 import './App.scss';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
-import { Context, app } from '@honzachalupa/helpers';
+
+interface IState {
+    testValue: string;
+}
 
 const App = () => {
-    const [state, setState] = useState({
+    const [state, setState] = useState<IState>({
         testValue: 'I\'m a testValue and I live in the AppContext - let\'s update me...'
     });
 
-    const setTestValue = value => {
-        setState(prevState => ({
+    const setTestValue = (value: string) => {
+        setState((prevState: IState) => ({
             ...prevState,
             testValue: value
         }));
@@ -33,7 +38,7 @@ const App = () => {
     };
 
     return (
-        <Context.Provider value={{ ...state, ...globalFunctions }}>
+        <Context.Provider value={{ ...state, ...globalFunctions } as IContext}>
             <Router basename={__BASENAME__}>
                 <Switch>
                     <Route component={Page_Home} path="/" exact />

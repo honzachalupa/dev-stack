@@ -1,11 +1,12 @@
 import React, { Fragment, useContext } from 'react';
 import { Context } from '@honzachalupa/helpers';
 import './style';
-import SampleIcon from 'Icons/sample';
-import SampleImage from 'Images/sample';
+import SampleIcon from 'Icons/sample.svg';
+import SampleImage from 'Images/sample.png';
+import { IContext } from 'Interfaces/Context';
 
 export default () => {
-    const { testValue, setTestValue } = useContext(Context);
+    const { testValue, setTestValue } = useContext<IContext>(Context);
 
     return (
         <div data-component="SampleComponent">

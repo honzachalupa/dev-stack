@@ -1,7 +1,11 @@
 import React from 'react';
 import './style';
 
-export default ({ children }) => (
+interface IProps {
+    children: React.ReactNode;
+}
+
+export default ({ children }: IProps) => (
     <div data-component="Layout_Main">
         {children}
     </div>
