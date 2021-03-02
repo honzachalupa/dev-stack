@@ -6,7 +6,7 @@ interface IProps {
 }
 
 export default ({ children }: IProps) => (
-    <div data-component="Layout_Main">
+    <section data-component="Layout_Main">
         {children}
-    </div>
+    </section>
 );
