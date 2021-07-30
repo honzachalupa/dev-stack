@@ -1,9 +1,8 @@
-import React, { Fragment, useContext } from 'react';
 import { Context } from '@honzachalupa/helpers';
-import './style';
 import SampleIcon from 'Icons/sample.svg';
 import SampleImage from 'Images/sample.png';
 import { IContext } from 'Interfaces/Context';
+import React, { Fragment, useContext } from 'react';
 
 export default () => {
     const { testValue, setTestValue } = useContext<IContext>(Context);

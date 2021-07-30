@@ -7,13 +7,11 @@ const CleanPlugin = require('clean-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = env => {
     console.log('Build started with following arguments:', env || 'NONE');
 
-    const isProduction = env.buildTarget === 'prod';
     const buildDate = moment().format('D.M.YYYY');
     const buildTarget = env ? env.buildTarget : '';
     const baseName = env ? env.baseName : '/';
@@ -61,7 +59,6 @@ module.exports = env => {
                     start_url: `${baseName}index.html?pwa=true`
                 }
             }),
-            new StyleLintPlugin(),
             new CopyWebpackPlugin([
                 { from: 'src/static' },
                 { from: 'src/images', to: 'images' }
@@ -131,26 +128,6 @@ module.exports = env => {
                         'awesome-typescript-loader'
                     ]
                 }, {
-                    test: /\.s?css$/,
-                    include: path.resolve(__dirname, 'src'),
-                    use: [
-                        'style-loader',
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                sourceMap: true
-                            }
-                        }, {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: !isProduction,
-                                data: `$accent-color: ${config.accentColor};`,
-                                includePaths: [__dirname, path.resolve(__dirname, 'src')]
-                            }
-                        },
-                        'postcss-loader'
-                    ]
-                }, {
                     test: /\.svg$/,
                     include: path.resolve(__dirname, 'src'),
                     use: [
@@ -181,7 +158,7 @@ module.exports = env => {
                     configFileName: './tsconfig.json'
                 })
             ],
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.scss', '.svg', '.jpg', '.jpeg', '.png', '.ttf']
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.svg', '.jpg', '.jpeg', '.png', '.ttf']
         },
         node: {
             fs: 'empty'

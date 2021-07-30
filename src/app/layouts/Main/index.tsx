@@ -1,5 +1,4 @@
 import React from 'react';
-import './style';
 
 interface IProps {
     children: React.ReactNode;

@@ -1,15 +1,14 @@
 /* globals __BASENAME__ */
 
 import '@babel/polyfill';
-import React, { useState, useEffect } from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Context, app } from '@honzachalupa/helpers';
+import { app, Context } from '@honzachalupa/helpers';
 import config from 'config';
 import { IContext } from 'Interfaces/Context';
-import './App.scss';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
+import React, { useEffect, useState } from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 export interface IState {
     testValue: string;
